@@ -4,14 +4,19 @@
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <style>
-
+      .back{
+        border:5px solid white;
+        margin: 10px auto;
+        width: 600px;
+        border-radius: 10px;
+      }
       .tweetbox{
         display: block;
         border-radius: 5px;
         background-color: rgba(255, 255, 255, 0.6); 
         margin: 10px auto;
         padding: 5px;
-        width:400px;
+        max-width:400px;
         }
       .tweetText p {
         text-align: center;
@@ -42,13 +47,13 @@
       }
       img{
         display: block;
-        position:fixed;
         height: 200px;
         width: 200px;
+        margin:  0px auto;
       }
       input{
         display: block;
-        border-radius: 5px;
+        border-radius: 10px;
         margin: 10px auto;
         padding: 5px;
         width:400px;
@@ -61,8 +66,10 @@
   <body>
   <img src="http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png"> </img>
   <input type="text" placeholder="Tweet">
+  <div class="back">
   <div id="bubbles">
   </div>
+</div>
   <script>
      var tweetArray = []
      var isUser = undefined;
@@ -111,6 +118,7 @@
         $header.appendTo($tweet);
         $tweet_text.appendTo($tweet);
         $footer.appendTo($tweet);
+
      }
 
    }
