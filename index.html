@@ -3,25 +3,123 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <style>
+
+      .tweetbox{
+        display: block;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.6); 
+        margin: 10px auto;
+        padding: 5px;
+        width:400px;
+        }
+      .tweetText p {
+        text-align: center;
+        color: black;
+
+      }
+
+      .header {
+        height: 10px;
+      }
+      .username {
+        float: left;
+      }
+
+      .time{
+        float: right;
+        color: gray;
+        font-size: 10px;
+      }
+      .footer{
+        height: 20px;
+        
+      }
+      body{
+        background-image: url('https://i.imgur.com/cUBrynN.png');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+      img{
+        display: block;
+        position:fixed;
+        height: 200px;
+        width: 200px;
+      }
+      input{
+        display: block;
+        border-radius: 5px;
+        margin: 10px auto;
+        padding: 5px;
+        width:400px;
+ 
+      }
+
+      }
+    </style>
   </head>
   <body>
-    <script>
+  <img src="http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png"> </img>
+  <input type="text" placeholder="Tweet">
+  <div id="bubbles">
+  </div>
+  <script>
+     var tweetArray = []
+     var isUser = undefined;
+     function refresh(){
+      if(isUser === undefined){
+        tweetArray = streams.home;
+        render(tweetArray);
+      }else{
+        renderUser(isUser);
+      }
+      setTimeout(refresh, 5000)
+     }
 
+     function renderUser(user){
+        isUser=user;
+        tweetArray = streams.users[user];
+        render(tweetArray);
+     }
+
+     function render(tweetArray){
+      var $bubbles = $('#bubbles');
+      //helps cleanse the page
+      $("#bubbles").html('');
+      // loop through the array bacwards to put the mos up to date at top
+      for(i = tweetArray.length-1; i>= 0; i--){
+        //individual tweet objects
+        var tweet = tweetArray[i];
+        //variable tweet for us to call.
+        var $tweet = $('<div class="tweetbox"></div>');
+        // variable holding the message of each tweet object
+        var $tweet_text = $('<div class="tweetText"><p>'+  tweet.message  + '</p></div>');
+        //defining the header
+        var $header = $('<div class="header"></div>')
+        //defining the footer
+        var $footer = $('<div class="footer"></div>')
+        //href created to run render user function if clicked.
+        var $user = $('<span class="username"><a href=javascript:renderUser("' +tweet.user + '");> @' + tweet.user +'</a></span>');
+        //variable holding the time created at in data generator
+        var $time = $('<span class="time">' + tweet.created_at + '</span>')
+
+        //push in the data to the specific locations.
+        $user.appendTo($header);
+        $time.appendTo($footer);
+        $tweet.appendTo($bubbles)
+        //push in data for header message and time into the tweet box
+        $header.appendTo($tweet);
+        $tweet_text.appendTo($tweet);
+        $footer.appendTo($tweet);
+     }
+
+   }
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
-
-      });
-
+        refresh();
+      }); 
     </script>
+
+
   </body>
 </html>
